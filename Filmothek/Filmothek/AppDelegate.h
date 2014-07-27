@@ -8,24 +8,30 @@
 
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
+#import <Quartz/Quartz.h>
 
 #import "SettingsWindowDelegate.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, SettingsClient>
+@interface AppDelegate : NSObject <NSApplicationDelegate, SettingsClient, NSTextFieldDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
-@property (assign) IBOutlet WebView *webView;
 
-@property (assign) IBOutlet NSWindow *aboutWindow;
-@property (assign) IBOutlet NSWindow *preferencesWindow;
-@property (assign) IBOutlet NSWindow *passwordWindow;
-@property (assign) IBOutlet NSView *passwordView;
-@property (assign) IBOutlet NSSecureTextField *passwordText;
-
+@property (assign) IBOutlet NSMenuItem *menuItemQuit;
 @property (assign) IBOutlet NSMenuItem *menuItemNormalMode;
 @property (assign) IBOutlet NSMenuItem *menuItemKioskMode;
 
+@property (assign) IBOutlet WebView *webView;
+@property (assign) IBOutlet NSImageView *webFreezeView;
+
+@property (assign) IBOutlet NSView *aboutView;
+
+@property (assign) IBOutlet NSWindow *preferencesWindow;
 @property (assign) IBOutlet SettingsWindowDelegate *settingsWindowDelegate;
 @property (retain) Settings * settings;
+
+
+@property (assign) IBOutlet NSView *passwordView;
+@property (assign) IBOutlet NSSecureTextField *passwordText;
+
 
 @end

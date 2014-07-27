@@ -30,13 +30,11 @@
     [settingsURLField setStringValue:settings_.settingsURL];
     [passwordField setStringValue:settings_.password];
     [passwordRequiredCheckbox setState: settings_.passwordRequired ? NSOnState : NSOffState];
-//    [passwordConfirmField setStringValue:settings_.password];
+    if ([settings_.password length] == 0){
+        [passwordRequiredCheckbox setEnabled:NO];
+    }
     [autostartOnCheckbox setState: settings_.autostartOn ? NSOnState : NSOffState];
     [autostartIntoKioskModeCheckbox setState: settings_.autostartIntoKioskMode ? NSOnState : NSOffState];
-    if (!settings_.autostartOn){
-        [autostartIntoKioskModeCheckbox setEnabled:NO];
-    }
-    
 }
 
 -(IBAction)autostartChanged:(id)sender {

@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6E55C4711985566C00397AD9 /* NSTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E55C4701985566C00397AD9 /* NSTransparentView.m */; };
+		6E536A7319856CAC0078EAAB /* NSColoredView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E536A7219856CAC0078EAAB /* NSColoredView.m */; };
+		6E536A78198586780078EAAB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E536A77198586780078EAAB /* QuartzCore.framework */; };
 		6E5EDF8D197FF1E900FE975F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E5EDF8C197FF1E900FE975F /* WebKit.framework */; };
 		6E5EDF8F197FFCAF00FE975F /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E5EDF8E197FFCAF00FE975F /* Settings.plist */; };
 		6EF91BFC197FC4B900AF4154 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EF91BFB197FC4B900AF4154 /* Cocoa.framework */; };
@@ -36,8 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6E55C46F1985566C00397AD9 /* NSTransparentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSTransparentView.h; sourceTree = "<group>"; };
-		6E55C4701985566C00397AD9 /* NSTransparentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSTransparentView.m; sourceTree = "<group>"; };
+		6E536A7119856CAC0078EAAB /* NSColoredView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSColoredView.h; sourceTree = "<group>"; };
+		6E536A7219856CAC0078EAAB /* NSColoredView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSColoredView.m; sourceTree = "<group>"; };
+		6E536A77198586780078EAAB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6E5EDF8C197FF1E900FE975F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		6E5EDF8E197FFCAF00FE975F /* Settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 		6EF91BF8197FC4B900AF4154 /* Filmothek.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Filmothek.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E536A78198586780078EAAB /* QuartzCore.framework in Frameworks */,
 				6E5EDF8D197FF1E900FE975F /* WebKit.framework in Frameworks */,
 				6EF91BFC197FC4B900AF4154 /* Cocoa.framework in Frameworks */,
 			);
@@ -109,6 +112,7 @@
 		6EF91BFA197FC4B900AF4154 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6E536A77198586780078EAAB /* QuartzCore.framework */,
 				6E5EDF8C197FF1E900FE975F /* WebKit.framework */,
 				6EF91BFB197FC4B900AF4154 /* Cocoa.framework */,
 				6EF91C1A197FC4BA00AF4154 /* XCTest.framework */,
@@ -135,12 +139,12 @@
 				6EF91C10197FC4BA00AF4154 /* MainMenu.xib */,
 				6EF91C13197FC4BA00AF4154 /* Images.xcassets */,
 				6EF91C02197FC4B900AF4154 /* Supporting Files */,
-				6EF91C32197FC51F00AF4154 /* SettingsWindowDelegate.h */,
-				6EF91C33197FC51F00AF4154 /* SettingsWindowDelegate.m */,
 				6EF91C2F197FC50000AF4154 /* Settings.h */,
 				6EF91C30197FC50000AF4154 /* Settings.m */,
-				6E55C46F1985566C00397AD9 /* NSTransparentView.h */,
-				6E55C4701985566C00397AD9 /* NSTransparentView.m */,
+				6EF91C32197FC51F00AF4154 /* SettingsWindowDelegate.h */,
+				6EF91C33197FC51F00AF4154 /* SettingsWindowDelegate.m */,
+				6E536A7119856CAC0078EAAB /* NSColoredView.h */,
+				6E536A7219856CAC0078EAAB /* NSColoredView.m */,
 			);
 			path = Filmothek;
 			sourceTree = "<group>";
@@ -275,8 +279,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E55C4711985566C00397AD9 /* NSTransparentView.m in Sources */,
 				6EF91C0F197FC4BA00AF4154 /* AppDelegate.m in Sources */,
+				6E536A7319856CAC0078EAAB /* NSColoredView.m in Sources */,
 				6EF91C08197FC4B900AF4154 /* main.m in Sources */,
 				6EF91C31197FC50000AF4154 /* Settings.m in Sources */,
 				6EF91C34197FC51F00AF4154 /* SettingsWindowDelegate.m in Sources */,

@@ -19,7 +19,7 @@ const NSString * autostartOnKey = @"autostartOn";
 const NSString * autostartIntoKioskModeKey = @"autostartIntoKioskMode";
 
 
-@synthesize targetURL, settingsURL, password, autostartOn, autostartIntoKioskMode;
+@synthesize targetURL, settingsURL, password, passwordRequired, autostartOn, autostartIntoKioskMode;
 
 - (Boolean) loadFromResource:(NSString *)resourceName {
     

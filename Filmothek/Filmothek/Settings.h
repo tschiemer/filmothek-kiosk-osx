@@ -11,16 +11,20 @@
 @interface Settings : NSObject {
     NSString * targetURL;
     NSString * settingsURL;
+    
     Boolean passwordRequired;
     NSString * password;
+    
     Boolean autostartOn;
     Boolean autostartIntoKioskMode;
 }
 
 @property (copy,atomic) NSString * targetURL;
 @property (copy,atomic) NSString * settingsURL;
+
 @property (assign,atomic) Boolean passwordRequired;
 @property (copy,atomic) NSString * password;
+
 @property (assign,atomic) Boolean autostartOn;
 @property (assign,atomic) Boolean autostartIntoKioskMode;
 

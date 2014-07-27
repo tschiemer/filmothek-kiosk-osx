@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "Settings.h"
 
-@protocol SettingsClient <NSObject,NSTextFieldDelegate>
+@protocol SettingsClient <NSObject>
 
 -(void)settingsChanged;
 
 @end
 
-@interface SettingsWindowDelegate : NSObject<NSWindowDelegate>
+@interface SettingsWindowDelegate : NSObject<NSWindowDelegate,NSTextFieldDelegate>
 
 @property (assign,atomic, setter=setSettings:) Settings * settings_;
 

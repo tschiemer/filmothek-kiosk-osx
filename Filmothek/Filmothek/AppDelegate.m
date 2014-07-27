@@ -10,11 +10,12 @@
 
 @implementation AppDelegate
 
-@synthesize window,aboutWindow, preferencesWindow;
-@synthesize passwordWindow, passwordText, passwordView;
-@synthesize webView;
-@synthesize menuItemKioskMode,menuItemNormalMode;
-@synthesize settings,settingsWindowDelegate;
+@synthesize window;
+@synthesize menuItemQuit,menuItemKioskMode,menuItemNormalMode;
+@synthesize aboutView;
+@synthesize preferencesWindow,settings,settingsWindowDelegate;
+@synthesize webView, webFreezeView;
+@synthesize passwordText, passwordView;
 
 
 typedef enum {ModeNormal,ModeKiosk} Mode;
@@ -23,6 +24,12 @@ Mode viewMode = ModeNormal;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [aboutView setHidden:YES];
+    [passwordView setHidden:YES];
+    [webFreezeView setHidden:YES];
+//    [webView setHidden:YES];
+    
+    
     settings = [[Settings alloc] init];
     
     if (![settings loadFromResource:@"Settings"]){
@@ -37,13 +44,26 @@ Mode viewMode = ModeNormal;
         [webView setMainFrameURL:settings.targetURL];
     }
     
+    
     viewMode = settings.autostartIntoKioskMode ? ModeKiosk : ModeNormal;
     
     if (viewMode == ModeKiosk){
-        [self menuKioskMode:nil];
-//        [menuItemKioskMode set]
+        [self activateKioskMode];
+    } else {
+        [self activateNormalMode];
     }
 
+}
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+    if (viewMode == ModeKiosk){
+        return NSTerminateCancel;
+    } else {
+        return NSTerminateNow;
+    }
+}
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
+    return YES;
 }
 
 -(void)settingsChanged {
@@ -56,12 +76,20 @@ Mode viewMode = ModeNormal;
 }
 
 
--(IBAction)menuAbout:(id)sender {
-    
+-(IBAction)showAbout:(id)sender {
+    [aboutView setHidden:NO];
+}
+
+-(IBAction)hideAbout:(id)sender {
+    [aboutView setHidden:YES];
 }
 
 
 -(IBAction)menuPreferences:(id)sender {
+    if (viewMode != ModeNormal){
+        return;
+    }
+    
     settingsWindowDelegate.receiver = self;
     [preferencesWindow makeKeyAndOrderFront:self];
     
@@ -69,7 +97,16 @@ Mode viewMode = ModeNormal;
 }
 
 
+- (void)controlTextDidChange:(NSNotification *)aNotification {
+//    [self passwordChanged:[aNotification object]];
+}
+
+
 -(IBAction)menuWebPreferences:(id)sender {
+    if (viewMode != ModeNormal){
+        return;
+    }
+    
     if ( [settings.settingsURL length] == 0){
         [self menuPreferences:self];
     } else {
@@ -94,14 +131,11 @@ Mode viewMode = ModeNormal;
     }
     
     if (settings.passwordRequired){
-        NSLog(@"password required");
-        [passwordWindow makeKeyAndOrderFront:self];
-//        [passwordWindow setLevel:1000];
-        [[passwordWindow contentView] enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+        [passwordView setHidden:NO];
+        [self freezeWebView];
+        [window makeFirstResponder:passwordText];
     } else {
-        NSLog(@"password not required");
-        [[window contentView] exitFullScreenModeWithOptions:nil];
-        viewMode = modeNormal;
+        [self activateNormalMode];
     }
 }
 
@@ -109,30 +143,91 @@ Mode viewMode = ModeNormal;
     if (viewMode == ModeKiosk){
         return;
     }
-    NSApplicationPresentationOptions options = NSApplicationPresentationFullScreen;
+    
+    [self activateKioskMode];
+}
+
+- (IBAction)cancelAuthentication:(id)sender {
+    [passwordView setHidden:YES];
+    [self unfreezeWebView];
+}
+
+- (IBAction)authenticate:(id)sender {
+    if ([settings.password isEqualToString:[passwordText stringValue]]){
+        [passwordView setHidden:YES];
+        [passwordText setStringValue:@""];
+        [self unfreezeWebView];
+        
+        [self activateNormalMode];
+    } else {
+        [passwordText setStringValue:@""];
+        static int numberOfShakes = 8;
+        static float durationOfShake = 0.5f;
+        static float vigourOfShake = 0.05f;
+        
+        CGRect frame=[passwordView frame];
+        CAKeyframeAnimation *shakeAnimation = [CAKeyframeAnimation animation];
+        
+        CGMutablePathRef shakePath = CGPathCreateMutable();
+        CGPathMoveToPoint(shakePath, NULL, NSMinX(frame), NSMinY(frame));
+        int index;
+        for (index = 0; index < numberOfShakes; ++index)
+        {
+            CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) - frame.size.width * vigourOfShake, NSMinY(frame));
+            CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) + frame.size.width * vigourOfShake, NSMinY(frame));
+        }
+        CGPathCloseSubpath(shakePath);
+        shakeAnimation.path = shakePath;
+        shakeAnimation.duration = durationOfShake;
+        
+        [passwordView setAnimations:[NSDictionary dictionaryWithObject: shakeAnimation forKey:@"frameOrigin"]];
+        [[passwordView animator] setFrameOrigin:[passwordView frame].origin];
+    }
+}
+
+-(void)freezeWebView {
+//    [webFreezeView setImage:[[NSImage alloc] initWithData:[webView dataWithPDFInsideRect:[webView bounds]]]];
+//    [webFreezeView setHidden:NO];
+//    [webView setHidden:YES];
+}
+-(void)unfreezeWebView {
+//    [webView setHidden:NO];
+//    [webFreezeView setHidden:YES];
+}
+
+
+-(void)activateKioskMode {
+    
+    NSApplicationPresentationOptions options = NSApplicationPresentationFullScreen
+//    + NSApplicationPresentationDisableProcessSwitching
+//        + NSApplicationPresentationDisableForceQuit
+    ;
     
     [NSApp setPresentationOptions:options];
     
     [[window contentView] enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
     
     viewMode = ModeKiosk;
+    
+    [menuItemQuit setEnabled:NO];
+    [menuItemNormalMode setState:NSOnState];
+    [menuItemKioskMode setState:NSOffState];
 }
 
-- (IBAction)cancelAuthentication:(id)sender {
-    [[passwordWindow contentView] exitFullScreenModeWithOptions:nil];
-    [passwordWindow close];
-}
-
-- (IBAction)authenticate:(id)sender {
-    if ([settings.password isEqualToString:[passwordText stringValue]]){
-        
-        [[passwordWindow contentView] exitFullScreenModeWithOptions:nil];
-        [passwordWindow close];
-        
-        [[window contentView] exitFullScreenModeWithOptions:nil];
-        
-        viewMode = ModeNormal;
-    }
+-(void)activateNormalMode {
+    
+    NSApplicationPresentationOptions options = NSApplicationPresentationFullScreen;
+    
+    [NSApp setPresentationOptions:options];
+    
+    
+    [[window contentView] exitFullScreenModeWithOptions:nil];
+    
+    viewMode = ModeNormal;
+    
+    [menuItemQuit setEnabled:YES];
+    [menuItemNormalMode setState:NSOnState];
+    [menuItemKioskMode setState:NSOffState];
 }
 
 
