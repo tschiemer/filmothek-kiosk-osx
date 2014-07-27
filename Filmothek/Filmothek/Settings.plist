@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>settingsURL</key>
+	<string>http://filmothek/settings</string>
+	<key>autostartIntoKioskMode</key>
+	<integer>0</integer>
+	<key>autostartOn</key>
+	<integer>0</integer>
+	<key>passwordRequired</key>
+	<integer>0</integer>
+	<key>password</key>
+	<string></string>
+	<key>targetURL</key>
+	<string>http://filmothek</string>
+</dict>
+</plist>
