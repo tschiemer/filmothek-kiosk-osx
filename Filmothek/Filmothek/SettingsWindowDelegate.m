@@ -7,6 +7,7 @@
 //
 
 #import "SettingsWindowDelegate.h"
+#import "LaunchAtLoginHelper.h"
 
 @implementation SettingsWindowDelegate
 
@@ -26,6 +27,11 @@
 
 - (void)loadSettingsIntoUI {
     NSLog(@"%@", settings_);
+    if ([LaunchAtLoginHelper willLaunchAtStartup]){
+        NSLog(@"autostart YES");
+    } else {
+        NSLog(@"autostart NO");
+    }
     [targetURLField setStringValue:settings_.targetURL];
     [settingsURLField setStringValue:settings_.settingsURL];
     [passwordField setStringValue:settings_.password];
@@ -33,16 +39,23 @@
     if ([settings_.password length] == 0){
         [passwordRequiredCheckbox setEnabled:NO];
     }
-    [autostartOnCheckbox setState: settings_.autostartOn ? NSOnState : NSOffState];
+    [autostartOnCheckbox setState: [LaunchAtLoginHelper willLaunchAtStartup] ? NSOnState : NSOffState];
     [autostartIntoKioskModeCheckbox setState: settings_.autostartIntoKioskMode ? NSOnState : NSOffState];
 }
 
 -(IBAction)autostartChanged:(id)sender {
-//    if (autostartOnCheckbox.state == NSOnState){
+    if ([LaunchAtLoginHelper willLaunchAtStartup]){//autostartOnCheckbox.state == NSOnState){
+        [LaunchAtLoginHelper setLaunchAtStartup:NO];
 //        [autostartIntoKioskModeCheckbox setEnabled:YES];
-//    } else {
+    } else {
+        [LaunchAtLoginHelper setLaunchAtStartup:YES];
 //        [autostartIntoKioskModeCheckbox setEnabled:NO];
-//    }
+    }
+    if ([LaunchAtLoginHelper willLaunchAtStartup]){
+        NSLog(@"autostart YES");
+    } else {
+        NSLog(@"autostart NO");
+    }
 }
 
 - (void)controlTextDidChange:(NSNotification *)aNotification {
@@ -71,7 +84,7 @@
     settings_.settingsURL = [settingsURLField stringValue];
     settings_.passwordRequired = [passwordRequiredCheckbox state] == NSOnState;
     settings_.password = [passwordField stringValue];
-    settings_.autostartOn = [autostartOnCheckbox state] == NSOnState;
+//    settings_.autostartOn = [autostartOnCheckbox state] == NSOnState;
     settings_.autostartIntoKioskMode = [autostartIntoKioskModeCheckbox state] == NSOnState;
     
     if ([settings_ saveToResource:@"Settings"]){
@@ -90,7 +103,7 @@
 - (IBAction)clearSettings:(id)sender {
     settings_.targetURL = @"";
     settings_.password = @"";
-    settings_.autostartOn = NO;
+//    settings_.autostartOn = NO;
     settings_.autostartIntoKioskMode = NO;
     
     
@@ -114,7 +127,7 @@
     settings_.settingsURL = [settingsURLField stringValue];
     settings_.password = [passwordField stringValue];
     settings_.passwordRequired = [passwordRequiredCheckbox state] == NSOnState;
-    settings_.autostartOn = [autostartOnCheckbox state] == NSOnState;
+//    settings_.autostartOn = [autostartOnCheckbox state] == NSOnState;
     settings_.autostartIntoKioskMode = [autostartIntoKioskModeCheckbox state] == NSOnState;
     
     if (![settings_ saveToResource:@"Settings"]){

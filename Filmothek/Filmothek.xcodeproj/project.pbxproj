@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E0CE97119A76D43001F9030 /* LaunchAtLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0CE97019A76D43001F9030 /* LaunchAtLoginHelper.m */; };
 		6E536A7319856CAC0078EAAB /* NSColoredView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E536A7219856CAC0078EAAB /* NSColoredView.m */; };
 		6E536A78198586780078EAAB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E536A77198586780078EAAB /* QuartzCore.framework */; };
 		6E5EDF8D197FF1E900FE975F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E5EDF8C197FF1E900FE975F /* WebKit.framework */; };
@@ -37,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6E0CE96F19A76D43001F9030 /* LaunchAtLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchAtLoginHelper.h; sourceTree = "<group>"; };
+		6E0CE97019A76D43001F9030 /* LaunchAtLoginHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchAtLoginHelper.m; sourceTree = "<group>"; };
 		6E536A7119856CAC0078EAAB /* NSColoredView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSColoredView.h; sourceTree = "<group>"; };
 		6E536A7219856CAC0078EAAB /* NSColoredView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSColoredView.m; sourceTree = "<group>"; };
 		6E536A77198586780078EAAB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -145,6 +148,8 @@
 				6EF91C33197FC51F00AF4154 /* SettingsWindowDelegate.m */,
 				6E536A7119856CAC0078EAAB /* NSColoredView.h */,
 				6E536A7219856CAC0078EAAB /* NSColoredView.m */,
+				6E0CE96F19A76D43001F9030 /* LaunchAtLoginHelper.h */,
+				6E0CE97019A76D43001F9030 /* LaunchAtLoginHelper.m */,
 			);
 			path = Filmothek;
 			sourceTree = "<group>";
@@ -282,6 +287,7 @@
 				6EF91C0F197FC4BA00AF4154 /* AppDelegate.m in Sources */,
 				6E536A7319856CAC0078EAAB /* NSColoredView.m in Sources */,
 				6EF91C08197FC4B900AF4154 /* main.m in Sources */,
+				6E0CE97119A76D43001F9030 /* LaunchAtLoginHelper.m in Sources */,
 				6EF91C31197FC50000AF4154 /* Settings.m in Sources */,
 				6EF91C34197FC51F00AF4154 /* SettingsWindowDelegate.m in Sources */,
 			);
