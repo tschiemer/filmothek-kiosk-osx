@@ -17,9 +17,32 @@ const NSString * passwordRequiredKey = @"passwordRequired";
 const NSString * passwordKey = @"password";
 const NSString * autostartOnKey = @"autostartOn";
 const NSString * autostartIntoKioskModeKey = @"autostartIntoKioskMode";
+const NSString * startupScriptPathKey = @"startupScriptPath";
+const NSString * shutdownScriptPathKey = @"shutdownScriptPath";
 
 
-@synthesize targetURL, settingsURL, password, passwordRequired, autostartOn, autostartIntoKioskMode;
+@synthesize targetURL, settingsURL, password, passwordRequired, autostartOn, autostartIntoKioskMode, startupScriptPath, shutdownScriptPath;
+
+- (Boolean) hasTargetURL {
+    return [targetURL length] > 0;
+}
+
+- (Boolean) hasSettingsURL {
+    return [settingsURL length] > 0;
+}
+
+- (Boolean) requiresPassword {
+    return passwordRequired && [password length] > 0;
+}
+
+- (Boolean) hasStartupScriptPath {
+    return [startupScriptPath length] > 0;
+}
+
+- (Boolean) hasShutdownScriptPath {
+    return [shutdownScriptPath length] > 0;
+}
+
 
 - (Boolean) loadFromResource:(NSString *)resourceName {
     
@@ -44,6 +67,8 @@ const NSString * autostartIntoKioskModeKey = @"autostartIntoKioskMode";
     self.password = [temp objectForKey:passwordKey];
     self.autostartOn = [[temp objectForKey:autostartOnKey]  boolValue];
     self.autostartIntoKioskMode = [[temp objectForKey:autostartIntoKioskModeKey]  boolValue];
+    self.startupScriptPath = [temp objectForKey:startupScriptPathKey];
+    self.shutdownScriptPath = [temp objectForKey:shutdownScriptPathKey];
     
     return true;
 }
@@ -54,10 +79,10 @@ const NSString * autostartIntoKioskModeKey = @"autostartIntoKioskMode";
     NSString  *plistPath = [[NSBundle mainBundle] pathForResource:resourceName ofType:@"plist"];
     
     NSDictionary *plistDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
-                                                                   targetURL, settingsURL, [NSNumber numberWithBool:passwordRequired], password, [NSNumber numberWithBool:autostartOn], [NSNumber numberWithBool:autostartIntoKioskMode], nil
+                                                                   targetURL, settingsURL, [NSNumber numberWithBool:passwordRequired], password, [NSNumber numberWithBool:autostartOn], [NSNumber numberWithBool:autostartIntoKioskMode], startupScriptPath, shutdownScriptPath,nil
                                                                    ]
                                                           forKeys:[NSArray arrayWithObjects:
-                                                                   targetURLKey, settingsURLKey,passwordRequiredKey, passwordKey, autostartOnKey, autostartIntoKioskModeKey, nil
+                                                                   targetURLKey, settingsURLKey,passwordRequiredKey, passwordKey, autostartOnKey, autostartIntoKioskModeKey, startupScriptPathKey, shutdownScriptPathKey,nil
                                                                    ]];
     
     NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:plistDict

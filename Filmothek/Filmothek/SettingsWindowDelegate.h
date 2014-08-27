@@ -27,10 +27,15 @@
 @property (assign) IBOutlet NSTextField *passwordField;
 @property (assign) IBOutlet NSButton *autostartOnCheckbox;
 @property (assign) IBOutlet NSButton *autostartIntoKioskModeCheckbox;
+@property (assign) IBOutlet NSTextField *startupScriptPathField;
+@property (assign) IBOutlet NSTextField *shutdownScriptPathField;
 
 
 - (void)setSettings:(Settings*)settings;
 - (void)loadSettingsIntoUI;
+
+- (IBAction)selectStartupScript:(id)sender;
+- (IBAction)selectShutdownScript:(id)sender;
 - (IBAction)saveSettings:(id)sender;
 - (IBAction)resetSettings:(id)sender;
 - (IBAction)clearSettings:(id)sender;

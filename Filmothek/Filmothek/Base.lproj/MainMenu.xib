@@ -27,17 +27,37 @@
                                     <action selector="menuPreferences:" target="494" id="kco-QW-VMW"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Web preferences..." keyEquivalent="." id="COG-cU-NqV">
+                            <menuItem isSeparatorItem="YES" id="W5c-BW-clL">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Reload main page" keyEquivalent="r" id="4Vo-7t-voE">
+                                <connections>
+                                    <action selector="menuReload:" target="494" id="xnF-uB-Qso"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Open web preferences..." keyEquivalent="." id="COG-cU-NqV">
                                 <connections>
                                     <action selector="menuWebPreferences:" target="494" id="4jl-iN-OfC"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="W5c-BW-clL">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="Reload page" keyEquivalent="r" id="4Vo-7t-voE">
+                            <menuItem title="Run Script" id="R73-2A-y5E">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Run Script" systemMenu="apple" id="bni-sc-m0x">
+                                    <items>
+                                        <menuItem title="Startup" keyEquivalent="u" id="69Q-Al-m23">
+                                            <connections>
+                                                <action selector="menuRunStartupScript:" target="494" id="kbz-Yv-Nss"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shutdown" keyEquivalent="d" id="qUN-JY-Bcv">
+                                            <connections>
+                                                <action selector="menuRunShutdownScript:" target="494" id="sk6-Aa-w0D"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
                                 <connections>
-                                    <action selector="menuReload:" target="494" id="xnF-uB-Qso"/>
+                                    <action selector="menuWebPreferences:" target="494" id="DGX-Ca-iCW"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="149">
@@ -263,6 +283,26 @@ Gw
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <view hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="heK-ro-H2c" customClass="NSColoredView">
+                        <rect key="frame" x="152" y="179" width="337" height="104"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gUk-zm-8zY">
+                                <rect key="frame" x="47" y="46" width="243" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Running startup script.." id="olp-oJ-nh5">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="centerX" secondItem="kMM-8Z-CEN" secondAttribute="centerX" id="8P6-uE-uk8"/>
@@ -286,27 +326,35 @@ Gw
                 <outlet property="menuItemKioskMode" destination="72" id="kbt-sy-HXA"/>
                 <outlet property="menuItemNormalMode" destination="82" id="UTU-ag-cTR"/>
                 <outlet property="menuItemQuit" destination="136" id="9A0-jv-7mD"/>
+                <outlet property="menuOpenWebPreferences" destination="COG-cU-NqV" id="cNO-s2-yKR"/>
+                <outlet property="menuRunShutdownScript" destination="qUN-JY-Bcv" id="TiW-DF-h9L"/>
+                <outlet property="menuRunStartupScript" destination="69Q-Al-m23" id="bBF-p7-eI5"/>
                 <outlet property="passwordText" destination="8Gx-74-YVy" id="aRt-DE-fq3"/>
                 <outlet property="passwordView" destination="mJA-Hu-XsA" id="fQo-hb-M1R"/>
                 <outlet property="preferencesWindow" destination="gYj-BP-poe" id="XT7-LM-SnU"/>
+                <outlet property="runningScriptField" destination="gUk-zm-8zY" id="Sa1-8J-PPN"/>
                 <outlet property="settingsWindowDelegate" destination="Td8-LN-NPE" id="imm-Aw-Fx7"/>
+                <outlet property="viewRunningScript" destination="heK-ro-H2c" id="miS-Bb-Pba"/>
+                <outlet property="viewStartupScript" destination="heK-ro-H2c" id="Shb-Vl-gHC"/>
                 <outlet property="webFreezeView" destination="wEK-BI-8Zw" id="Wry-Of-79m"/>
                 <outlet property="webView" destination="S0Q-oM-uxV" id="frl-ZZ-tGF"/>
                 <outlet property="window" destination="371" id="532"/>
+                <outlet property="windowShutdownScript" destination="ei0-ai-IeD" id="YeM-Yv-bOi"/>
+                <outlet property="windowStartupScript" destination="rhW-JL-1pR" id="Xhd-tH-55x"/>
             </connections>
         </customObject>
         <customObject id="420" customClass="NSFontManager"/>
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="gYj-BP-poe">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="-1517" y="52" width="475" height="331"/>
+            <rect key="contentRect" x="-1517" y="52" width="574" height="456"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
             <view key="contentView" id="o2R-Y4-P2h">
-                <rect key="frame" x="0.0" y="0.0" width="475" height="331"/>
+                <rect key="frame" x="0.0" y="0.0" width="574" height="456"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fUV-8j-zu9">
-                        <rect key="frame" x="177" y="289" width="278" height="22"/>
+                        <rect key="frame" x="177" y="414" width="278" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Target URL" drawsBackground="YES" id="46t-rU-bdm">
                             <font key="font" metaFont="system"/>
@@ -314,8 +362,26 @@ Gw
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ec-15-H2i">
+                        <rect key="frame" x="177" y="141" width="278" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Startup command" drawsBackground="YES" id="Kda-ZU-zdd">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DOq-pI-f5L">
+                        <rect key="frame" x="177" y="109" width="278" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Shutdown command" drawsBackground="YES" id="U9e-Pm-pvs">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eJ6-Mt-db8">
-                        <rect key="frame" x="177" y="120" width="278" height="22"/>
+                        <rect key="frame" x="177" y="245" width="278" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="&lt;Password>" drawsBackground="YES" id="zDn-e1-iKm">
                             <font key="font" metaFont="system"/>
@@ -327,7 +393,7 @@ Gw
                         </connections>
                     </textField>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6zD-OK-Vh8">
-                        <rect key="frame" x="175" y="85" width="72" height="18"/>
+                        <rect key="frame" x="175" y="210" width="72" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Enabled" bezelStyle="regularSquare" imagePosition="left" inset="2" id="paR-y1-VpB">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -338,7 +404,7 @@ Gw
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wDq-cq-rjn">
-                        <rect key="frame" x="175" y="63" width="157" height="18"/>
+                        <rect key="frame" x="175" y="188" width="157" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Start into kiosk mode" bezelStyle="regularSquare" imagePosition="left" inset="2" id="aaG-gU-GxG">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -346,7 +412,7 @@ Gw
                         </buttonCell>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LDv-kp-e6a">
-                        <rect key="frame" x="18" y="291" width="153" height="17"/>
+                        <rect key="frame" x="18" y="416" width="153" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Target URL" id="ndD-C7-NqV">
                             <font key="font" metaFont="system"/>
@@ -355,7 +421,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vHk-pg-1gW">
-                        <rect key="frame" x="18" y="184" width="153" height="17"/>
+                        <rect key="frame" x="18" y="309" width="153" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Password protection" id="082-MM-Stc">
                             <font key="font" metaFont="system"/>
@@ -364,7 +430,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iHl-fr-sJa">
-                        <rect key="frame" x="18" y="86" width="153" height="17"/>
+                        <rect key="frame" x="18" y="211" width="153" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Autostart" id="9Hv-m7-K8W">
                             <font key="font" metaFont="system"/>
@@ -372,8 +438,17 @@ Gw
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WVA-oZ-t09">
+                        <rect key="frame" x="18" y="144" width="153" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Scripts" id="p8Z-If-HA5">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jmM-dR-aQv">
-                        <rect key="frame" x="175" y="266" width="282" height="17"/>
+                        <rect key="frame" x="175" y="391" width="282" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Kiosk opens this URL on start." id="MM4-ZM-yVx">
                             <font key="font" size="11" name="LucidaGrande"/>
@@ -382,7 +457,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ZU-sf-eYf">
-                        <rect key="frame" x="177" y="234" width="278" height="22"/>
+                        <rect key="frame" x="177" y="359" width="278" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Settings URL" drawsBackground="YES" id="0W6-CF-QTq">
                             <font key="font" metaFont="system"/>
@@ -391,7 +466,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qj5-yt-9SX">
-                        <rect key="frame" x="18" y="236" width="153" height="17"/>
+                        <rect key="frame" x="18" y="361" width="153" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Settings URL" id="WRf-rS-pUE">
                             <font key="font" metaFont="system"/>
@@ -400,7 +475,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PsQ-mE-aId">
-                        <rect key="frame" x="175" y="211" width="282" height="17"/>
+                        <rect key="frame" x="175" y="336" width="282" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Kiosk opens this URL when requesting webapp administration." id="dZc-ZN-3Df">
                             <font key="font" size="11" name="LucidaGrande"/>
@@ -409,7 +484,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x5q-sY-L9w">
-                        <rect key="frame" x="177" y="150" width="285" height="28"/>
+                        <rect key="frame" x="177" y="275" width="285" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Kiosk mode can only be left if the password below is entered." id="Pdz-M6-eGN">
                             <font key="font" size="11" name="LucidaGrande"/>
@@ -417,8 +492,17 @@ Gw
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DZK-lc-Gbr">
+                        <rect key="frame" x="175" y="73" width="285" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="These user defined commands are run when the kiosk application starts, stops respectively." id="Ncx-8U-S1P">
+                            <font key="font" size="11" name="LucidaGrande"/>
+                            <color key="textColor" red="0.50269616169999998" green="0.50269616169999998" blue="0.50269616169999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cFe-H6-zwE">
-                        <rect key="frame" x="175" y="183" width="124" height="18"/>
+                        <rect key="frame" x="175" y="308" width="124" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Enabled" bezelStyle="regularSquare" imagePosition="left" inset="2" id="oRV-Px-N8V">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -426,7 +510,7 @@ Gw
                         </buttonCell>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FWT-Mi-Ok9">
-                        <rect key="frame" x="379" y="13" width="82" height="32"/>
+                        <rect key="frame" x="478" y="13" width="82" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RTu-vb-27Z">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -437,7 +521,7 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uWR-mO-45Q">
-                        <rect key="frame" x="297" y="13" width="82" height="32"/>
+                        <rect key="frame" x="396" y="13" width="82" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="osS-qn-UgH">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -468,8 +552,63 @@ Gw
                 <outlet property="passwordField" destination="eJ6-Mt-db8" id="x05-Ro-ivL"/>
                 <outlet property="passwordRequiredCheckbox" destination="cFe-H6-zwE" id="Ik7-zi-zvV"/>
                 <outlet property="settingsURLField" destination="4ZU-sf-eYf" id="hTs-Sk-Uk0"/>
+                <outlet property="shutdownScriptPathField" destination="DOq-pI-f5L" id="3GM-6G-C3d"/>
+                <outlet property="startupScriptPathField" destination="1ec-15-H2i" id="qxu-lV-Csg"/>
                 <outlet property="targetURLField" destination="fUV-8j-zu9" id="WMh-Li-DpU"/>
             </connections>
         </customObject>
+        <button verticalHuggingPriority="750" id="p9S-4S-AAE">
+            <rect key="frame" x="0.0" y="0.0" width="82" height="32"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="A7n-0e-mwy">
+                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                <font key="font" metaFont="system"/>
+            </buttonCell>
+            <connections>
+                <action selector="saveSettings:" target="Td8-LN-NPE" id="Cjd-1H-WT7"/>
+            </connections>
+        </button>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="ei0-ai-IeD" customClass="NSPanel">
+            <windowStyleMask key="styleMask" utility="YES" HUD="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="75" y="104" width="341" height="76"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
+            <view key="contentView" id="psy-Zt-a9y">
+                <rect key="frame" x="0.0" y="0.0" width="341" height="76"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wT9-tb-Rpj">
+                        <rect key="frame" x="18" y="30" width="197" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Running shutdown command.." id="GVE-Yp-QgX">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="highlightColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+        </window>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="rhW-JL-1pR" customClass="NSPanel">
+            <windowStyleMask key="styleMask" utility="YES" HUD="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="75" y="104" width="341" height="76"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
+            <view key="contentView" id="fub-8T-kF2">
+                <rect key="frame" x="0.0" y="0.0" width="341" height="76"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nus-gJ-2Lh">
+                        <rect key="frame" x="23" y="30" width="180" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Running startup command.." id="G9T-Yz-H79">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="highlightColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+        </window>
     </objects>
 </document>

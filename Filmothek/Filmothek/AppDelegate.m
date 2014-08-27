@@ -11,7 +11,7 @@
 @implementation AppDelegate
 
 @synthesize window;
-@synthesize menuItemQuit,menuItemKioskMode,menuItemNormalMode;
+@synthesize menuItemQuit,menuItemKioskMode,menuItemNormalMode, menuRunStartupScript, menuRunShutdownScript, menuOpenWebPreferences, viewRunningScript, runningScriptField;
 @synthesize aboutView;
 @synthesize preferencesWindow,settings,settingsWindowDelegate;
 @synthesize webView, webFreezeView;
@@ -38,11 +38,17 @@ Mode viewMode = ModeNormal;
         NSLog(@"settings loaded");
     }
     
-    if ( [settings.targetURL length] == 0){
-        [self menuPreferences:self];
+    if ( [settings hasStartupScriptPath]){
+        [menuRunStartupScript setEnabled:YES];
     } else {
-        [webView setMainFrameURL:settings.targetURL];
+        [menuRunStartupScript setEnabled:NO];
     }
+    if ( [settings hasShutdownScriptPath]){
+        [menuRunShutdownScript setEnabled:YES];
+    } else {
+        [menuRunShutdownScript setEnabled:NO];
+    }
+    
     
     
     viewMode = settings.autostartIntoKioskMode ? ModeKiosk : ModeNormal;
@@ -52,12 +58,31 @@ Mode viewMode = ModeNormal;
     } else {
         [self activateNormalMode];
     }
+    
+//    if ( ![settings hasTargetURL]){
+//        [self menuPreferences:self];
+//    } else {
+//        
+//        [webView setMainFrameURL:settings.targetURL];
+//    }
+    
+    dispatch_queue_t taskQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+    dispatch_async(taskQueue, ^{
+        if ([settings hasStartupScriptPath]){
+            [self runStartupScript:YES];
+        }
+        [self performSelectorOnMainThread:@selector(menuReload:) withObject:nil waitUntilDone:NO];
+    });
+    
 
 }
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
     if (viewMode == ModeKiosk){
         return NSTerminateCancel;
     } else {
+        
+        [self runShutdownScript:YES];
+        
         return NSTerminateNow;
     }
 }
@@ -68,10 +93,21 @@ Mode viewMode = ModeNormal;
 
 -(void)settingsChanged {
     
-    if ( [settings.targetURL length] == 0){
+    if ( ![settings hasTargetURL]){
 //        [webView ]
     } else {
         [self menuReload:self];
+    }
+    
+    if ( [settings hasStartupScriptPath]){
+        [menuRunStartupScript setEnabled:YES];
+    } else {
+        [menuRunStartupScript setEnabled:NO];
+    }
+    if ( [settings hasShutdownScriptPath]){
+        [menuRunShutdownScript setEnabled:YES];
+    } else {
+        [menuRunShutdownScript setEnabled:NO];
     }
 }
 
@@ -84,6 +120,100 @@ Mode viewMode = ModeNormal;
     [aboutView setHidden:YES];
 }
 
+
+-(IBAction)menuRunStartupScript:(id)sender {
+    if (viewMode != ModeNormal){
+        return;
+    }
+    [self runStartupScript:true];
+}
+
+
+-(void)runStartupScript:(BOOL)waitForExit {
+    if (![settings hasStartupScriptPath]){
+        return;
+    }
+    NSLog(@"Running startup script: START");
+    
+    
+    //1
+    NSTask *task = [[NSTask alloc] init];
+    
+    //2
+    task.launchPath = @"/bin/bash";
+    task.arguments = @[@"-c",settings.startupScriptPath];
+//    task.launchPath = settings.startupScriptPath;
+    
+    //3
+//    NSString* speakingPhrase = self.phraseField.stringValue;
+//    task.arguments  = @[speakingPhrase];
+    [runningScriptField setStringValue:@"Running startup script.."];
+    [viewRunningScript setHidden:NO];
+    
+    //4
+    [task launch];
+    
+    
+    //5
+    if (waitForExit){
+        [task waitUntilExit];
+    }
+
+    [viewRunningScript setHidden:YES];
+    
+    NSLog(@"Running startup script: EXIT");
+}
+
+-(IBAction)menuRunShutdownScript:(id)sender {
+    if (viewMode != ModeNormal){
+        return;
+    }
+    [self runShutdownScript:true];
+}
+
+-(void)runShutdownScript:(BOOL)waitForExit {
+    if (![settings hasShutdownScriptPath]){
+        return;
+    }
+    
+    NSLog(@"Running shutdown script: START");
+    
+    //1
+    NSTask *task = [[NSTask alloc] init];
+    
+    //2
+    
+    
+    [runningScriptField setStringValue:@"Running shutdown script.."];
+    [viewRunningScript setHidden:NO];
+    
+    task.launchPath = @"/bin/bash";
+    task.arguments = @[@"-c",settings.shutdownScriptPath];
+//    task.launchPath = settings.shutdownScriptPath;
+    
+    //3
+    //    NSString* speakingPhrase = self.phraseField.stringValue;
+    //    task.arguments  = @[speakingPhrase];
+    
+//    [windowShutdownScript makeKeyAndOrderFront:self];
+    
+    //4
+    [task launch];
+    
+    //5
+    if (waitForExit){
+        [task waitUntilExit];
+    }
+
+        [viewRunningScript setHidden:YES];
+    
+//    [windowShutdownScript orderOut:self];
+//    
+//    [window orderFront:self];
+    
+    NSLog(@"Running shutdown script: EXIT");
+    
+}
 
 -(IBAction)menuPreferences:(id)sender {
     if (viewMode != ModeNormal){
@@ -107,7 +237,7 @@ Mode viewMode = ModeNormal;
         return;
     }
     
-    if ( [settings.settingsURL length] == 0){
+    if ( ![settings hasSettingsURL]){
         [self menuPreferences:self];
     } else {
         [webView setMainFrameURL:settings.settingsURL];
@@ -116,7 +246,7 @@ Mode viewMode = ModeNormal;
 
 -(IBAction)menuReload:(id)sender {
     
-    if ( [settings.targetURL length] == 0){
+    if ( ![settings hasTargetURL]){
         [self menuPreferences:self];
     } else {
         [webView setMainFrameURL:settings.targetURL];
@@ -130,7 +260,7 @@ Mode viewMode = ModeNormal;
         return;
     }
     
-    if (settings.passwordRequired){
+    if ([settings requiresPassword]){
         [passwordView setHidden:NO];
         [self freezeWebView];
         [window makeFirstResponder:passwordText];

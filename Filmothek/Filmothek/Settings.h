@@ -17,6 +17,9 @@
     
     Boolean autostartOn;
     Boolean autostartIntoKioskMode;
+    
+    NSString * startupScriptPath;
+    NSString * shutdownScriptPath;
 }
 
 @property (copy,atomic) NSString * targetURL;
@@ -28,7 +31,17 @@
 @property (assign,atomic) Boolean autostartOn;
 @property (assign,atomic) Boolean autostartIntoKioskMode;
 
+@property (copy,atomic) NSString * startupScriptPath;
+@property (copy,atomic) NSString * shutdownScriptPath;
+
 - (Boolean) loadFromResource:(NSString *)resourceName;
 - (Boolean) saveToResource:(NSString *)resourceName;
+
+
+- (Boolean) hasTargetURL;
+- (Boolean) hasSettingsURL;
+- (Boolean) requiresPassword;
+- (Boolean) hasStartupScriptPath;
+- (Boolean) hasShutdownScriptPath;
 
 @end

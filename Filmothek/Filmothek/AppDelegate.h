@@ -19,6 +19,14 @@
 @property (assign) IBOutlet NSMenuItem *menuItemQuit;
 @property (assign) IBOutlet NSMenuItem *menuItemNormalMode;
 @property (assign) IBOutlet NSMenuItem *menuItemKioskMode;
+@property (assign) IBOutlet NSMenuItem *menuOpenWebPreferences;
+
+
+@property (assign) IBOutlet NSMenuItem *menuRunStartupScript;
+@property (assign) IBOutlet NSMenuItem *menuRunShutdownScript;
+@property (assign) IBOutlet NSView *viewRunningScript;
+@property (assign) IBOutlet NSTextField *runningScriptField;
+
 
 @property (assign) IBOutlet WebView *webView;
 @property (assign) IBOutlet NSImageView *webFreezeView;

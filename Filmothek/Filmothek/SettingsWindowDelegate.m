@@ -15,9 +15,18 @@
 @synthesize receiver;
 
 @synthesize targetURLField, settingsURLField, passwordRequiredCheckbox, passwordField, autostartOnCheckbox, autostartIntoKioskModeCheckbox;
+@synthesize startupScriptPathField, shutdownScriptPathField;
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
     [self loadSettingsIntoUI];
+}
+
+- (IBAction)selectStartupScript:(id)sender {
+    
+}
+
+- (IBAction)selectShutdownScript:(id)sender {
+    
 }
 
 - (void)setSettings:(Settings *)settings {
@@ -41,6 +50,9 @@
     }
     [autostartOnCheckbox setState: [LaunchAtLoginHelper willLaunchAtStartup] ? NSOnState : NSOffState];
     [autostartIntoKioskModeCheckbox setState: settings_.autostartIntoKioskMode ? NSOnState : NSOffState];
+    
+    [startupScriptPathField setStringValue:settings_.startupScriptPath];
+    [shutdownScriptPathField setStringValue:settings_.shutdownScriptPath];
 }
 
 -(IBAction)autostartChanged:(id)sender {
@@ -87,6 +99,9 @@
 //    settings_.autostartOn = [autostartOnCheckbox state] == NSOnState;
     settings_.autostartIntoKioskMode = [autostartIntoKioskModeCheckbox state] == NSOnState;
     
+    settings_.startupScriptPath = [startupScriptPathField stringValue];
+    settings_.shutdownScriptPath = [shutdownScriptPathField stringValue];
+    
     if ([settings_ saveToResource:@"Settings"]){
         [receiver settingsChanged];
         NSLog(@"settings save");
@@ -106,6 +121,8 @@
 //    settings_.autostartOn = NO;
     settings_.autostartIntoKioskMode = NO;
     
+    settings_.startupScriptPath = @"";
+    settings_.shutdownScriptPath = @"";
     
     if ([settings_ saveToResource:@"Settings"]){
         [receiver settingsChanged];
@@ -129,6 +146,9 @@
     settings_.passwordRequired = [passwordRequiredCheckbox state] == NSOnState;
 //    settings_.autostartOn = [autostartOnCheckbox state] == NSOnState;
     settings_.autostartIntoKioskMode = [autostartIntoKioskModeCheckbox state] == NSOnState;
+    
+    settings_.startupScriptPath = [startupScriptPathField stringValue];
+    settings_.shutdownScriptPath = [shutdownScriptPathField stringValue];
     
     if (![settings_ saveToResource:@"Settings"]){
         NSLog(@"settings not saved");
